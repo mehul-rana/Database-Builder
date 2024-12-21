@@ -1,4 +1,5 @@
 // REQUIRE DEPENDENCIES
+const { error } = require('console');
 const express = require('express');
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
@@ -45,13 +46,41 @@ app.post('/api', (request, response) =>{
   })
 })
 
-
+//todo: need to refactor function, update is not reflecting in MongoDB
 app.put('/updateEntry', (request, response) =>{
-  
+  console.log(request.body)
+  Object.keys(request.body).forEach(key => {
+    if(request.body[key] === null || request.body[key] === undefined || request.body[key] === ""){
+      delete request.body[key]
+    }
+  })
+  console.log(request.body)
+  db.collection('tracker').findOneAndUpdate(
+    {move: request.body.moveName, position: request.body.positionName, attire: request.body.giOrNoGi},
+    {
+      $set: {
+        move: request.body.moveName,
+        position: request.body.positionName,
+        attire: request.body.giOrNoGi
+      }
+    }
+  )
+  .then(result => {
+    // console.log(result)
+    response.json('Success')
+  })
+  .catch(error => console.log(error))
 })
 
 app.delete('/deleteEntry', (request, response) => {
-
+  db.collection('tracker').deleteOne(
+    {move: request.body.move}
+  )
+  .then(result => {
+    console.log('Entry Deleted')
+    response.json('Entry Deleted')
+  })
+  .catch(error => console.log(error))
 })
 
 // SET UP LOCALHOST ON PORT

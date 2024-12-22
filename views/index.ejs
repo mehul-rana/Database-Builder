@@ -10,6 +10,16 @@
 
 <section class="row">
   <section class="column">
+    <h2>Input API Data Here</h2>
+    <form action="/api" method="POST">
+      <input type="text" placeholder="Move" name="move">
+      <input type="text" placeholder="Position" name="position">
+      <input type="text" placeholder="Attire" name="attire">
+      <button type="submit">Submit</button>
+      <button type="button" id="updateButton">Update</button>
+    </form>
+  </section>
+  <section class="column">
     <h2>Current Moves</h2>
     <ul class="moves">
       <% for(let i=0; i < info.length; i++) {%>

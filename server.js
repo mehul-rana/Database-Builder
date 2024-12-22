@@ -35,12 +35,19 @@ app.get('/', (request, response) =>{
 })
 
 app.post('/api', (request, response) =>{
-
+  console.log('Post worked')
+  db.collection('tracker').insertOne(
+    {move: request.body.move, position: request.body.position, attire: request.body.attire, successfulAttempts: 0, completed: false}
+  )
+  .then(result => {
+    console.log(result)
+    response.redirect('/')
+  })
 })
 
 
 app.put('/updateEntry', (request, response) =>{
-
+  
 })
 
 app.delete('/deleteEntry', (request, response) => {
